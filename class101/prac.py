@@ -14,26 +14,21 @@ def custom_attn(q, k, v, w_q, w_k, w_v, w_out):
     # Ex.1 S.1: Instead of using Q, K, V directly, we will featurize Q, K, V first.
     # By featuring, we meant Q @ W_Q.
     # ------------------------------------------------------------------------------
-    feat_q = torch.matmul(q, w_q.T)
-    feat_k = torch.matmul(k, w_k.T)
-    feat_v = torch.matmul(v, w_v.T)
+    # TODO
 
     # ------------------------------------------------------------------------------
     # Ex.1 S.2: Apply (Q @ K) @ V operation. After applying Q @ K, instead of
     # passing its output directly, we will use a Softmax to constraint its output
     # in a range first. Then, Softmax(Q @ K) @ V.
     # ------------------------------------------------------------------------------
-    feat_q = feat_q * math.sqrt(1.0 / float(feat_q.size(-1)))  # Required
-    feat_k_t = feat_k.transpose(1, 2)
-    feat_qk = torch.bmm(feat_q, feat_k_t)
-    sm_qk = F.softmax(feat_qk, dim=-1)
-    out = torch.bmm(sm_qk, feat_v)
+    # TODO
 
     # ------------------------------------------------------------------------------
     # Ex.1 S.3: Featurize output.
     # ------------------------------------------------------------------------------
-    feat_out = torch.matmul(out, w_out.T)
-    return feat_out
+    # TODO
+
+    raise NotImplementedError
 
 
 torch_attn = (

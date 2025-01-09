@@ -5,31 +5,10 @@ import torch
 def flash_attention(q, k, v):
     ###############################################################################
     # We emualate the online attention mechanism here using PyTorch APIs.
+    # Refer https://courses.cs.washington.edu/courses/cse599m/23sp/notes/flashattn.pdf
     ###############################################################################
-    k_t = k.transpose(1, 2)
-    bsz = q.size()[0]
-
-    o = torch.empty_like(q)
-    for bi in range(bsz):
-        q_per_b, k_t_per_b, v_per_b = (
-            q[bi],
-            k_t[bi],
-            v[bi],
-        )
-        for ki, q_row in enumerate(q_per_b):
-            m, d = -torch.inf, 0
-            for i in range(k_t_per_b.size()[-1]):
-                k_t_col = k_t_per_b[:, i]
-                q_k = torch.matmul(q_row, k_t_col)
-                print(q_k, q_k.size())
-                prev_m, prev_d = m, d
-                m = max(m, q_k)
-                d = prev_d * torch.e ** (prev_m - m) + torch.e ** (q_k - m)
-                o[bi, ki] = (
-                    o[bi, ki] * (prev_d * torch.e ** (prev_m - m)) / d
-                    + torch.e ** (q_k - m) / d * v_per_b[i]
-                )
-    return o
+    # TODO
+    raise NotImplementedError
 
 
 def custom_attn(q, k, v, w_q, w_k, w_v, w_out):
